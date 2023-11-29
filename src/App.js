@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import NavBar from "./NavBar";
+import Login from "./Login";
+import ListsPage from "./ListPage";
+import PrivateRoute from "./PrivateRoute";
+import Tasks from "./Tasks";
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <NavBarWithLogout />
+        <Routes>
+          <Route path="/"  />
+          <Route path="/lists" element={<PrivateRoute> <ListsPage /></PrivateRoute>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/tasks/:listID" element={<Tasks />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
+const NavBarWithLogout = () => {
+    const navigate = useNavigate();
+  
+    const handleLogout = () => {
+      localStorage.removeItem('userId');
+      navigate('/login');
+    };
+  
+    return <NavBar onLogout={handleLogout} />;
+  };
+
 export default App;
+
+
