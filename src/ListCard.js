@@ -6,13 +6,15 @@ const ListCard = ({ list, onEditList, onDeleteList }) => {
   const navigate = useNavigate();
 
   const onViewTasks = () => {
-    navigate(`/tasks/${list.listID}`);
+    navigate(`/tasks/${list.listID}`, {
+      state: { listTitle: list.list_title },
+    });
   };
 
   return (
     <Card>
       <Card.Body>
-        <Card.Title>{list.list_title}</Card.Title>
+        <Card.Title className="text-light">{list.list_title}</Card.Title>
 
         <div className="d-flex justify-content-end">
           <Dropdown as={ButtonGroup}>
@@ -34,13 +36,13 @@ const ListCard = ({ list, onEditList, onDeleteList }) => {
                 eventKey="1"
                 onClick={() => onEditList(list.listID)}
               >
-                Edit List
+                Edit
               </Dropdown.Item>
               <Dropdown.Item
                 eventKey="2"
                 onClick={() => onDeleteList(list.listID)}
               >
-                Delete List
+                Delete
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

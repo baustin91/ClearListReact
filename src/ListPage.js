@@ -45,7 +45,7 @@ const ListsPage = () => {
     setListName(list.list_title);
     setShowModal(true);
   };
-  
+
   const handleCloseModal = () => {
     setShowModal(false);
   };
@@ -57,14 +57,14 @@ const ListsPage = () => {
       console.error("User ID not found");
       return;
     }
-  
+
     let url = "http://localhost:5000/lists";
     let method = "POST";
     let bodyData = {
       userID: userId,
       list_title: listName,
     };
-  
+
     if (isEditMode && currentList) {
       method = "PUT";
       bodyData = {
@@ -72,7 +72,7 @@ const ListsPage = () => {
         list_title: listName,
       };
     }
-  
+
     try {
       const response = await fetch(url, {
         method: method,
@@ -81,7 +81,7 @@ const ListsPage = () => {
         },
         body: JSON.stringify(bodyData),
       });
-  
+
       if (response.ok) {
         setListName("");
         setShowModal(false);
@@ -95,7 +95,6 @@ const ListsPage = () => {
       console.error("Error:", error);
     }
   };
-  
 
   const onDeleteList = async (listID) => {
     if (window.confirm("Are you sure you want to delete this list?")) {
@@ -120,10 +119,11 @@ const ListsPage = () => {
   return (
     <div className="container">
       <div className="row justify-content-between">
-        <h1 className="col-8 mt-2">Lists</h1>
+        <h1 className="col-8 mt-2 text-light">Lists</h1>
         <Button
           variant="info"
-          className="col-2 col-sm-1 my-2 mr-3"
+          style={{ fontSize: "24px" }}
+          className="col-2 col-sm-1 my-2 mr-3 p-0"
           onClick={handleAddList}
         >
           +
@@ -140,6 +140,10 @@ const ListsPage = () => {
           </div>
         ))}
       </div>
+
+
+      {/* Modal */}
+
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>{isEditMode ? "Edit List" : "Add New List"}</Modal.Title>
@@ -147,7 +151,7 @@ const ListsPage = () => {
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
             <Form.Group>
-              <Form.Label>List Name</Form.Label>
+              <Form.Label className="text-light">List Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter list name"

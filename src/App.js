@@ -6,6 +6,8 @@ import Login from "./Login";
 import ListsPage from "./ListPage";
 import PrivateRoute from "./PrivateRoute";
 import Tasks from "./Tasks";
+import Welcome from "./Welcome";
+import NotFoundPage from "./NotFoundPage";
 
 function App() {
 
@@ -14,10 +16,11 @@ function App() {
       <div>
         <NavBarWithLogout />
         <Routes>
-          <Route path="/"  />
+          <Route path="/" element={<Welcome />}  />
           <Route path="/lists" element={<PrivateRoute> <ListsPage /></PrivateRoute>} />
           <Route path="/login" element={<Login />} />
-          <Route path="/tasks/:listID" element={<Tasks />} />
+          <Route path="/tasks/:listID" element={<PrivateRoute><Tasks /></PrivateRoute>} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
     </Router>
@@ -29,7 +32,7 @@ const NavBarWithLogout = () => {
   
     const handleLogout = () => {
       localStorage.removeItem('userId');
-      navigate('/login');
+      navigate('/');
     };
   
     return <NavBar onLogout={handleLogout} />;
